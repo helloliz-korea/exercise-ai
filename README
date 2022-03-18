@@ -1,0 +1,44 @@
+This folder contains all the materials necessary for training deep-learning based algorithms
+for the DL-spectral CT Challenge.
+The training data folder contains 1000 cases with which to train your networks.
+For more information about the spectral CT modeling, please see the starting_kit.
+
+----------------------------------------------------------------------------------------
+CONTENTS of training_data/
+----------------------------------------------------------------------------------------
+
+Data are in python numpy's .npy format, and arrays are stored in float32 (single precision).
+The .npy files can be read into python with the numpy.load command, yielding single precision
+floating point arrays of the proper dimensions.
+
+Files:
+Phantom_[Tissue].npy.gz   ([Tissue] can be Adipose, Fibroglandular, or Calcification)
+These arrays are 1000x512x512. Files are gzipped for faster data transfer.
+1000 images of pixel dimensions 512x512.
+These are ground truth Tissue maps for the simulated breast phantom.
+
+[low/high]kVpTransmission.npy.gz
+These arrays are 1000x256x1024
+The represent 1000 cases of the low and high kVp transmission data, each of which has 256 projections
+onto a linear 1024-pixel detector.
+
+[low/high]kVpImages.npy.gz
+These arrays are 1000x512x512
+1000 images of pixel dimensions 512x512, generated from [low/high]kVpTransmission.npy
+by standard negative logarithm processing followed by filtered back-projection (FBP)
+image reconstruction.
+
+For the challenge, the goal will be to estimate (or predict) Phantom_[Tissue].npy
+from either [low/high]kVpTransmission.npy or [low/high]kVpImages.npy or both.
+
+Iterative or model-based approaches will necessarily use [low/high]kVpTransmission.npy as input.
+Deep-learning approaches can be:
+solely image-to-image; i.e. [low/high]kVpImages -> Phantom[Tissue] prediction.
+solely data-to-image; i.e. [low/high]kVpTransmission -> Phantom[Tissue] prediction.
+Or some combination of the two.
+Hybrid iterative/deep-learning approaches are also acceptable.
+
+Participants using image-to-image approaches do not need to know the spectral CT model.
+All other approaches will need this knowledge and model specifications are
+provided in the folder "starting_kit/model/".
+
